@@ -1,0 +1,38 @@
+Finiip Frontend V111 - compatible with Backend V110
+Generated: 2026-06-15
+
+CHANGED / REPLACED
+- index.html
+  * Renamed from index(6).html for static deployment.
+  * Added Chat, Documents & Reports, and Knowledge Base views.
+  * Added multi-file inputs, modals, counters, report builder, RAG manager.
+
+- app.js
+  * Full Backend V110 integration.
+  * source_cards, generated_file, quality, suggested_questions.
+  * Conversation rename/archive/delete/share.
+  * Multi-file upload and drag/drop.
+  * Async file-report jobs, polling, history, secure download.
+  * V84 RAG dashboard, upload, list, detail, reindex, status, delete.
+  * Long-answer Markdown renderer with tables/code/lists.
+  * API/workspace/user settings.
+
+- styles.css
+  * New responsive UI for source cards, file results, reports, knowledge management, modals and long answers.
+
+- config.js
+- config.example.js
+  * Added USER_NAME and FRONTEND_VERSION.
+
+- set_api_url.py
+  * Keeps all required V111 config fields.
+
+- README.md
+  * Deployment and API integration guide.
+
+- vercel.json
+  * Static deployment headers retained.
+
+NEW
+- MANIFEST_FRONTEND_V111.txt
+- validate_frontend.py

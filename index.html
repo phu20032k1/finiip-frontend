@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f9fc" />
+  <meta name="description" content="Finiip AI — trợ lý kế toán, thuế, phân tích tài liệu và lập báo cáo." />
+  <title>Finiip AI — Trợ lý kế toán</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <button class="brand" id="brandBtn" type="button" aria-label="Trang chủ Finiip">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6.8 3.5h10.4a3.3 3.3 0 0 1 3.3 3.3v6.7a3.3 3.3 0 0 1-3.3 3.3h-5.4l-4.4 3.4v-3.4h-.6a3.3 3.3 0 0 1-3.3-3.3V6.8a3.3 3.3 0 0 1 3.3-3.3Z"/><path d="m8 10.3 2.3 2.3L16.4 7"/></svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Finiip</strong>
+            <small>AI Workspace</small>
+          </span>
+        </button>
+
+        <button class="collapse-btn" id="collapseBtn" type="button" title="Thu gọn sidebar" aria-label="Thu gọn sidebar">
+          <svg viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg>
+        </button>
+      </div>
+
+      <button class="new-chat" id="newChatBtn" type="button">
+        <span class="new-chat-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+        <span class="sidebar-label">Cuộc trò chuyện mới</span>
+        <kbd class="shortcut">⌘ K</kbd>
+      </button>
+
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <button class="nav-item active" type="button" data-view="chat">
+          <svg viewBox="0 0 24 24"><path d="M21 12a8.4 8.4 0 0 1-9 8.4 9.4 9.4 0 0 1-4-.9L3 21l1.5-4.4A8.4 8.4 0 1 1 21 12Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+          <span class="sidebar-label">Trò chuyện</span>
+        </button>
+        <button class="nav-item" type="button" data-view="documents">
+          <svg viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H10l2 2h5.5A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5Z"/></svg>
+          <span class="sidebar-label">Tài liệu & báo cáo</span>
+          <span class="badge sidebar-label" id="documentBadge">0</span>
+        </button>
+        <button class="nav-item" type="button" data-view="knowledge">
+          <svg viewBox="0 0 24 24"><path d="M12 6.2A6.8 6.8 0 0 0 5.2 13c0 3 1.9 5.6 4.6 6.5V22h4.4v-2.5A6.8 6.8 0 0 0 12 6.2Z"/><path d="M9.6 15.8h4.8M9.9 19h4.2M12 2v1.5M4.9 4.9 6 6M19.1 4.9 18 6M2 12h1.5M20.5 12H22"/></svg>
+          <span class="sidebar-label">Kho kiến thức</span>
+          <span class="badge sidebar-label" id="knowledgeBadge">0</span>
+        </button>
+      </nav>
+
+      <section class="history-section" id="historySection">
+        <div class="section-title sidebar-label">
+          <span>Gần đây</span>
+          <button id="refreshHistoryBtn" type="button" aria-label="Làm mới lịch sử" title="Làm mới">
+            <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+          </button>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="history-empty sidebar-label">Chưa có cuộc trò chuyện</div>
+        </div>
+      </section>
+
+      <div class="sidebar-bottom">
+        <button class="upgrade-card" id="capabilityCardBtn" type="button">
+          <span class="spark-icon"><svg viewBox="0 0 24 24"><path d="m12 3 1.3 4.2L17.5 8.5l-4.2 1.3L12 14l-1.3-4.2-4.2-1.3 4.2-1.3Z"/><path d="m18 14 .8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8Z"/></svg></span>
+          <span class="upgrade-copy sidebar-label">
+            <strong>Finiip V110</strong>
+            <small>AI, tính toán, OCR, báo cáo</small>
+          </span>
+          <svg class="chevron sidebar-label" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <button class="profile" id="profileBtn" type="button">
+          <span class="avatar" id="profileAvatar">P</span>
+          <span class="profile-copy sidebar-label">
+            <strong id="profileName">Phú</strong>
+            <small id="profileWorkspace">Workspace cá nhân</small>
+          </span>
+          <svg class="sidebar-label" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Mở menu">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+
+        <button class="model-switcher" id="capabilitiesBtn" type="button" title="Xem khả năng của Finiip">
+          <span class="model-orb"><i></i></span>
+          <span>
+            <strong id="topbarTitle">Finiip Expert</strong>
+            <small id="topbarSubtitle">Kế toán · Thuế · Pháp lý · Báo cáo</small>
+          </span>
+          <svg viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg>
+        </button>
+
+        <div class="topbar-actions">
+          <button class="status-pill" id="apiStatusBtn" type="button" title="Cấu hình kết nối backend">
+            <span class="status-dot"></span>
+            <span id="apiStatusText">Đang kết nối API</span>
+          </button>
+          <button class="icon-btn" id="shareBtn" type="button" title="Chia sẻ cuộc trò chuyện">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg>
+          </button>
+          <button class="icon-btn" id="conversationMenuBtn" type="button" title="Tùy chọn cuộc trò chuyện">
+            <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="chat-stage workspace-view" id="chatStage" data-view-panel="chat">
+        <div class="ambient ambient-one"></div>
+        <div class="ambient ambient-two"></div>
+
+        <div class="welcome" id="welcomeState">
+          <div class="welcome-orb" aria-hidden="true">
+            <span class="orb-core"><svg viewBox="0 0 24 24"><path d="M8.2 6.5A5.6 5.6 0 0 1 18 10.2c0 3.1-2.5 5.6-5.6 5.6H8.7A4.7 4.7 0 0 1 4 11.1a4.6 4.6 0 0 1 4.2-4.6Z"/><path d="M8.5 11.7h7M10 14.2h4"/></svg></span>
+          </div>
+          <p class="eyebrow"><span></span> TRỢ LÝ AI THUỘC CTCP IIP VIỆT NAM</p>
+          <h1>Hôm nay Finiip có thể<br/><span>giúp bạn việc gì?</span></h1>
+          <p class="welcome-copy">Hỏi nghiệp vụ kế toán, thuế, quy trình, bài toán số; đọc nhiều tệp, phân tích câu hỏi rất dài và xuất báo cáo Word, Excel hoặc PDF.</p>
+
+          <div class="suggestions" aria-label="Gợi ý câu hỏi">
+            <button class="suggestion-card" type="button" data-prompt="Phân tích giúp tôi hóa đơn đầu vào này có đủ điều kiện khấu trừ VAT không? Hãy nêu hồ sơ cần kiểm tra, rủi ro và bút toán đề xuất.">
+              <span class="suggestion-icon blue"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6Z"/><path d="M14 3.5v4h4M9 12h6M9 16h4"/></svg></span>
+              <span><strong>Kiểm tra hóa đơn</strong><small>Điều kiện, rủi ro, bút toán</small></span>
+              <svg class="arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button class="suggestion-card" type="button" data-prompt="Tính điểm hòa vốn khi chi phí cố định là 500 triệu đồng, giá bán 200 nghìn đồng mỗi sản phẩm và biến phí 120 nghìn đồng mỗi sản phẩm. Trình bày công thức và kiểm tra kết quả.">
+              <span class="suggestion-icon violet"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19V3"/></svg></span>
+              <span><strong>Tính toán nghiệp vụ</strong><small>Công thức và từng bước</small></span>
+              <svg class="arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button class="suggestion-card" type="button" data-prompt="Tôi sẽ đính kèm nhiều file. Hãy đọc toàn bộ, đối chiếu số liệu, chỉ ra sai lệch và xuất cho tôi báo cáo Excel chi tiết.">
+              <span class="suggestion-icon mint"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4Z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></span>
+              <span><strong>Đọc file & xuất báo cáo</strong><small>PDF, Word, Excel, ảnh OCR</small></span>
+              <svg class="arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="conversation hidden" id="conversation" aria-live="polite"></div>
+      </section>
+
+      <section class="workspace-page workspace-view hidden" id="documentsView" data-view-panel="documents">
+        <div class="page-container">
+          <div class="page-heading">
+            <div><p class="page-eyebrow">TỆP & BÁO CÁO</p><h1>Đọc nhiều tệp và xuất báo cáo</h1><p>Chọn nhiều PDF, Word, Excel, CSV, ảnh hoặc văn bản. Backend V110 sẽ xử lý bất đồng bộ và trả file tải xuống.</p></div>
+            <button class="secondary-btn" id="refreshReportsBtn" type="button"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>Làm mới</button>
+          </div>
+
+          <div class="workspace-grid report-layout">
+            <section class="workspace-card report-builder-card">
+              <div class="card-heading"><div><span class="card-kicker">TẠO BÁO CÁO MỚI</span><h2>Phân tích tài liệu</h2></div><span class="feature-pill">V110</span></div>
+              <button class="file-dropzone" id="reportDropzone" type="button">
+                <span class="drop-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></span>
+                <strong>Kéo thả hoặc bấm để chọn nhiều tệp</strong>
+                <small id="reportFormatHint">PDF, DOCX, XLSX, CSV, JSON, TXT, ảnh OCR</small>
+              </button>
+              <div class="selected-files hidden" id="reportSelectedFiles"></div>
+
+              <div class="form-grid">
+                <label class="field span-2"><span>Tiêu đề báo cáo</span><input id="reportTitle" type="text" placeholder="Ví dụ: Báo cáo rà soát công nợ tháng 6" maxlength="240" /></label>
+                <label class="field span-2"><span>Yêu cầu phân tích</span><textarea id="reportInstruction" rows="5" placeholder="Mô tả chi tiết các nội dung cần đọc, đối chiếu, tính toán và kết luận...">Đọc toàn bộ các tệp, đối chiếu số liệu, nêu phát hiện quan trọng, rủi ro, đề xuất xử lý và lập báo cáo chi tiết.</textarea></label>
+                <label class="field"><span>Loại tác vụ</span><select id="reportTaskType"><option value="auto_report">Tự động chọn</option><option value="financial_report">Báo cáo tài chính</option><option value="accounting_review">Soát xét kế toán</option><option value="legal_review">Rà soát pháp lý</option><option value="qa">Trả lời theo tài liệu</option></select></label>
+                <label class="field"><span>Định dạng đầu ra</span><select id="reportOutputFormat"><option value="docx">Word (.docx)</option><option value="xlsx">Excel (.xlsx)</option><option value="pdf">PDF (.pdf)</option><option value="csv">CSV (.csv)</option><option value="json">JSON (.json)</option><option value="md">Markdown (.md)</option><option value="txt">Text (.txt)</option></select></label>
+                <label class="field"><span>Kiểu trình bày</span><select id="reportStyle"><option value="detailed">Chi tiết</option><option value="executive">Tóm tắt điều hành</option><option value="accounting_manager">Dành cho kế toán trưởng</option><option value="standard">Tiêu chuẩn</option></select></label>
+                <div class="field action-field"><span>&nbsp;</span><button class="primary-btn" id="createReportBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>Tạo báo cáo</button></div>
+              </div>
+              <div class="job-progress hidden" id="reportProgress"><span class="progress-spinner"></span><div><strong id="reportProgressTitle">Đang xử lý tài liệu…</strong><small id="reportProgressText">Bạn có thể chuyển sang trang khác; tác vụ vẫn tiếp tục.</small></div></div>
+            </section>
+
+            <aside class="workspace-card capability-summary" id="fileCapabilitiesCard">
+              <div class="card-heading"><div><span class="card-kicker">KHẢ NĂNG</span><h2>File Intelligence</h2></div></div>
+              <div class="capability-list" id="fileCapabilityList"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line"></div></div>
+            </aside>
+          </div>
+
+          <section class="workspace-card history-card">
+            <div class="card-heading"><div><span class="card-kicker">LỊCH SỬ</span><h2>Báo cáo đã tạo</h2></div><span class="count-label" id="reportCountLabel">0 báo cáo</span></div>
+            <div class="report-history" id="reportHistory"><div class="empty-panel">Chưa có báo cáo nào.</div></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="workspace-page workspace-view hidden" id="knowledgeView" data-view-panel="knowledge">
+        <div class="page-container">
+          <div class="page-heading">
+            <div><p class="page-eyebrow">KHO KIẾN THỨC RAG</p><h1>Quản lý tài liệu Finiip học</h1><p>Tải tài liệu chính thức, tìm kiếm, kích hoạt, lưu trữ hoặc lập chỉ mục lại. Các tài liệu này được dùng làm nguồn riêng cho workspace.</p></div>
+            <button class="secondary-btn" id="refreshKnowledgeBtn" type="button"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>Làm mới</button>
+          </div>
+
+          <div class="stat-grid" id="knowledgeStats">
+            <div class="stat-card"><span>Tài liệu</span><strong>—</strong><small>Trong workspace</small></div>
+            <div class="stat-card"><span>Đoạn kiến thức</span><strong>—</strong><small>Chunks đã lập chỉ mục</small></div>
+            <div class="stat-card"><span>Đang hoạt động</span><strong>—</strong><small>Sẵn sàng trả lời</small></div>
+            <div class="stat-card"><span>Embedding</span><strong>—</strong><small>Nhà cung cấp</small></div>
+          </div>
+
+          <div class="workspace-grid knowledge-layout">
+            <section class="workspace-card knowledge-upload-card">
+              <div class="card-heading"><div><span class="card-kicker">BỔ SUNG KIẾN THỨC</span><h2>Tải tài liệu vào RAG</h2></div><span class="feature-pill warning">Quản trị</span></div>
+              <button class="file-dropzone compact" id="knowledgeDropzone" type="button">
+                <span class="drop-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg></span>
+                <strong id="knowledgeFileLabel">Chọn một tài liệu chính thức</strong><small>PDF, DOCX, XLSX, CSV, TXT, MD, JSON hoặc ảnh</small>
+              </button>
+              <div class="form-grid compact-grid">
+                <label class="field span-2"><span>Tiêu đề</span><input id="knowledgeTitle" type="text" placeholder="Để trống để dùng tên file" /></label>
+                <label class="field"><span>Danh mục</span><select id="knowledgeCategory"><option value="accounting">Kế toán</option><option value="tax">Thuế</option><option value="legal">Pháp lý</option><option value="finance">Tài chính</option><option value="business">Quản trị</option><option value="technology">Dữ liệu / công nghệ</option><option value="general">Tổng hợp</option></select></label>
+                <label class="field"><span>Trạng thái</span><select id="knowledgeStatus"><option value="active">Đang hoạt động</option><option value="draft">Bản nháp</option><option value="archived">Lưu trữ</option></select></label>
+                <label class="field span-2"><span>Thẻ</span><input id="knowledgeTags" type="text" placeholder="Ví dụ: VAT, hóa đơn, 2026" /></label>
+                <button class="primary-btn span-2" id="uploadKnowledgeBtn" type="button"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>Tải lên và lập chỉ mục</button>
+              </div>
+            </section>
+
+            <section class="workspace-card knowledge-list-card">
+              <div class="card-heading knowledge-toolbar">
+                <div><span class="card-kicker">DANH SÁCH</span><h2>Tài liệu đã học</h2></div>
+                <div class="search-control"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="knowledgeSearch" type="search" placeholder="Tìm tên, số văn bản, cơ quan..." /></div>
+              </div>
+              <div class="knowledge-list" id="knowledgeList"><div class="empty-panel">Đang tải kho kiến thức…</div></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <footer class="composer-wrap" id="composerWrap">
+        <div class="composer" id="composer">
+          <div class="drop-overlay hidden" id="chatDropOverlay"><strong>Thả tệp vào đây để Finiip đọc</strong><small>Tối đa 12 tệp mỗi câu hỏi</small></div>
+          <div class="composer-input-row">
+            <textarea id="messageInput" rows="1" maxlength="100000" placeholder="Hỏi Finiip về kế toán, thuế, tính toán, quy trình; hoặc đính kèm file để phân tích..." aria-label="Nội dung tin nhắn"></textarea>
+            <button class="send-btn" id="sendBtn" type="button" aria-label="Gửi tin nhắn" disabled>
+              <svg viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></svg>
+            </button>
+          </div>
+          <div class="composer-tools">
+            <div class="tool-group">
+              <button class="tool-btn" id="attachBtn" type="button"><svg viewBox="0 0 24 24"><path d="m20.5 11.5-8.2 8.2a5 5 0 0 1-7.1-7.1l9-9a3.5 3.5 0 0 1 5 5l-9.1 9.1a2 2 0 1 1-2.8-2.8l8.4-8.4"/></svg><span>Đính kèm</span></button>
+              <button class="tool-btn" id="deepToggle" type="button"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2M16 3h5v5"/></svg><span>Phân tích sâu</span></button>
+              <button class="tool-btn source-toggle active" id="sourceToggle" type="button"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4Z"/><path d="M8 9h8M8 13h5"/></svg><span>Kèm nguồn</span><i></i></button>
+            </div>
+            <span class="input-hint"><span id="charCount">0</span>/100.000 · Enter gửi · Shift + Enter xuống dòng</span>
+          </div>
+        </div>
+        <div class="attachment-tray hidden" id="attachmentTray"></div>
+        <p class="disclaimer">Finiip có thể mắc lỗi. Hãy kiểm tra lại thông tin quan trọng, đặc biệt là pháp luật, thuế suất và thời hạn đang có hiệu lực.</p>
+      </footer>
+    </main>
+  </div>
+
+  <input id="fileInput" type="file" hidden multiple accept=".pdf,.docx,.xlsx,.xlsm,.csv,.json,.txt,.md,.html,.htm,.xml,.png,.jpg,.jpeg,.webp,.tif,.tiff" />
+  <input id="reportFileInput" type="file" hidden multiple accept=".pdf,.docx,.xlsx,.xlsm,.csv,.json,.txt,.md,.html,.htm,.xml,.png,.jpg,.jpeg,.webp,.tif,.tiff" />
+  <input id="knowledgeFileInput" type="file" hidden accept=".pdf,.docx,.xlsx,.xlsm,.csv,.json,.txt,.md,.html,.htm,.xml,.png,.jpg,.jpeg,.webp,.tif,.tiff" />
+
+  <div class="toast" id="toast" role="status"><span class="toast-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span id="toastText">Sẵn sàng</span></div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop" aria-hidden="true">
+    <section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-header"><div><span class="modal-kicker" id="modalKicker">FINIIP</span><h2 id="modalTitle">Thông tin</h2></div><button class="modal-close" id="modalCloseBtn" type="button" aria-label="Đóng"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header>
+      <div class="modal-body" id="modalBody"></div>
+      <footer class="modal-footer hidden" id="modalFooter"></footer>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
