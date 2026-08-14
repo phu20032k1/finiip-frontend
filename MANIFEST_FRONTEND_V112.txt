@@ -1,0 +1,54 @@
+Finiip Frontend V112 - Accounting Suite
+Generated: 2026-08-14
+
+GOAL
+- Add a unified accounting workspace inspired by the breadth of modern Vietnamese accounting suites.
+- Do not copy MISA proprietary source code, branding, assets, or exact UI.
+
+NEW
+- accounting-suite.js
+- accounting-suite.css
+
+CHANGED
+- config.js
+  * FRONTEND_VERSION -> 1.12.0
+  * Loads Accounting Suite after the core V111 app initializes.
+
+ACCOUNTING MODULES
+1. Overview / management dashboard
+2. Cash
+3. Banking
+4. Purchasing
+5. Sales
+6. Inventory
+7. Fixed assets
+8. Tools & prepaid expenses
+9. Payroll
+10. Tax
+11. Costing
+12. General ledger & closing
+13. E-invoice
+14. Reports
+15. AI review & reconciliation
+
+WORKING INTEGRATIONS WITH CURRENT BACKEND
+- GET /system/status
+- GET /transactions
+- GET /journal-entries (core backend support)
+- GET /sales-invoices
+- GET /purchase-invoices
+- Existing AI chat, file reports, OCR and RAG workspace
+
+V112 BEHAVIOR
+- Adds a dedicated Accounting item to the sidebar.
+- Shows KPI cards using current backend data.
+- Shows recent purchase/sales invoices and transactions.
+- Provides workflow maps and feature lists per accounting module.
+- Sends module-specific review/analysis prompts to the existing Finiip AI chat.
+- Links reporting workflow to the existing multi-file report engine.
+- Provides AI-control alerts for draft, unpaid and low-confidence data.
+- Responsive layout for desktop/tablet/mobile.
+
+IMPORTANT LIMITATION
+V112 is a functional accounting workspace/foundation, not literal 100% MISA feature parity yet.
+The current backend does not yet have dedicated persistent ledgers/models for inventory, fixed assets, CCDC, payroll, costing, bank reconciliation, electronic invoice issuance, purchase/sales orders and contracts. V112 exposes these modules and connects them to AI/report workflows without fabricating persistence. These domains should be implemented as dedicated backend modules in subsequent versions.
