@@ -1,10 +1,10 @@
-name: V112 Frontend Smoke
+name: V113 Frontend Smoke
 
 on:
   pull_request:
   push:
     branches:
-      - agent/accounting-suite-v112
+      - agent/accounting-api-ui-v113
 
 jobs:
   syntax:
@@ -22,3 +22,7 @@ jobs:
         run: node --check accounting-suite.js
       - name: Check V112 operations JavaScript
         run: node --check accounting-operations-v112.js
+      - name: Check V113 API feature router
+        run: node --check accounting-feature-router-v113.js
+      - name: Check V113 config loader
+        run: node --check config.js
