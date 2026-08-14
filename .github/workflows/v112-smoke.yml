@@ -40,3 +40,21 @@ jobs:
           }
           console.log('Frontend V114 -> Fly backend wiring OK');
           JS
+
+      - name: Require live Fly Health + Chat + Accounting
+        run: |
+          set -e
+          BASE='https://finiip-backend.fly.dev'
+          success=0
+          for attempt in $(seq 1 6); do
+            echo "Live Fly probe ${attempt}/6"
+            if curl -fsS --connect-timeout 3 --max-time 6 "$BASE/api/v1/health" >/dev/null \
+              && curl -fsS --connect-timeout 3 --max-time 6 -H 'X-API-Key: finiip' -H 'X-Workspace-ID: ci-frontend' "$BASE/api/v1/chat/status" >/dev/null \
+              && curl -fsS --connect-timeout 3 --max-time 6 -H 'X-API-Key: finiip' -H 'X-Workspace-ID: ci-frontend' "$BASE/api/v112/accounting/modules" >/dev/null; then
+              success=1
+              break
+            fi
+            sleep 5
+          done
+          test "$success" = 1
+          echo 'Fly Health + Chat + Accounting APIs are live'
