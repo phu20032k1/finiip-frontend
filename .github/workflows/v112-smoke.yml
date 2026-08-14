@@ -1,0 +1,24 @@
+name: V112 Frontend Smoke
+
+on:
+  pull_request:
+  push:
+    branches:
+      - agent/accounting-suite-v112
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check core app JavaScript
+        run: node --check app.js
+      - name: Check Accounting Suite JavaScript
+        run: node --check accounting-suite.js
+      - name: Check V112 operations JavaScript
+        run: node --check accounting-operations-v112.js
