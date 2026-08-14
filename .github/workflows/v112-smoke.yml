@@ -1,10 +1,11 @@
-name: V113 Frontend Smoke
+name: V114 Frontend Smoke
 
 on:
   pull_request:
   push:
     branches:
-      - agent/accounting-api-ui-v113
+      - main
+      - agent/backend-failover-v114
 
 jobs:
   syntax:
@@ -12,17 +13,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check core app JavaScript
-        run: node --check app.js
-      - name: Check Accounting Suite JavaScript
-        run: node --check accounting-suite.js
-      - name: Check V112 operations JavaScript
-        run: node --check accounting-operations-v112.js
-      - name: Check V113 API feature router
-        run: node --check accounting-feature-router-v113.js
-      - name: Check V113 config loader
-        run: node --check config.js
+
+      - name: Check frontend JavaScript
+        run: |
+          node --check app.js
+          node --check accounting-suite.js
+          node --check accounting-operations-v112.js
+          node --check accounting-feature-router-v113.js
+          node --check config.js
+
+      - name: Verify Fly backend is the shared API base
+        run: |
+          node - <<'JS'
+          const fs = require('fs');
+          const text = fs.readFileSync('config.js', 'utf8');
+          if (!text.includes('API_BASE_URL: "https://finiip-backend.fly.dev"')) {
+            throw new Error('Frontend is not configured to use the Fly backend');
+          }
+          if (!text.includes('FRONTEND_VERSION: "1.14.0"')) {
+            throw new Error('Frontend V114 version marker missing');
+          }
+          console.log('Frontend V114 -> Fly backend wiring OK');
+          JS
