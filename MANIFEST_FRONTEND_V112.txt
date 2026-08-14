@@ -1,0 +1,73 @@
+Finiip Frontend V112 - Accounting Suite
+Generated: 2026-08-14
+
+GOAL
+- Add a unified accounting workspace inspired by the breadth of modern Vietnamese accounting suites.
+- Do not copy MISA proprietary source code, branding, assets, or exact UI.
+
+NEW
+- accounting-suite.js
+- accounting-suite.css
+- accounting-operations-v112.js
+- accounting-operations-v112.css
+
+CHANGED
+- config.js
+  * FRONTEND_VERSION -> 1.12.0
+  * Loads Accounting Suite and the V112 operations bridge after the V111 core app initializes.
+
+ACCOUNTING MODULES
+1. Overview / management dashboard
+2. Cash
+3. Banking
+4. Purchasing
+5. Sales
+6. Inventory
+7. Fixed assets
+8. Tools & prepaid expenses
+9. Payroll
+10. Tax
+11. Costing
+12. General ledger & closing
+13. E-invoice
+14. Reports
+15. AI review & reconciliation
+
+CORE INTEGRATIONS
+- GET /system/status
+- GET /transactions
+- GET /journal-entries
+- GET /sales-invoices
+- GET /purchase-invoices
+- GET /accounts
+- Existing AI chat, file reports, OCR and RAG workspace
+
+V112 ACCOUNTING API INTEGRATION
+- GET /api/v112/accounting/modules
+- GET /api/v112/accounting/documents
+- POST /api/v112/accounting/documents
+- PUT/DELETE /api/v112/accounting/documents/{id}
+- POST /api/v112/accounting/documents/{id}/approve
+- POST /api/v112/accounting/documents/{id}/cancel
+- POST /api/v112/accounting/documents/{id}/post
+- GET/POST /api/v112/accounting/masters/{entity_type}
+- DELETE /api/v112/accounting/masters/{entity_type}/{id}
+- GET /api/v112/accounting/reconciliation
+
+V112 BEHAVIOR
+- Adds a dedicated Accounting item to the sidebar.
+- Shows KPI cards using current backend data.
+- Shows recent purchase/sales invoices and transactions.
+- Provides workflow maps and feature lists per accounting module.
+- Adds a persistent operational document panel to each accounting module.
+- Users can create drafts, approve, post, cancel and delete documents subject to workflow rules.
+- Posting collects debit/credit accounts and writes to the backend V112 ledger workflow.
+- Adds extensible master-data management for each module.
+- Adds accounting reconciliation/control-center UI.
+- Sends module-specific review/analysis prompts to the existing Finiip AI chat.
+- Links reporting workflow to the existing multi-file report engine.
+- Gracefully warns when the V112 backend has not been deployed instead of fabricating persistence.
+- Responsive layout for desktop/tablet/mobile.
+
+SCOPE
+V112 now provides a real shared persistence/workflow foundation for the broad accounting modules. Specialized industry workflows, licensed tax/e-invoice services, bank connections and one-to-one parity with every proprietary feature still require dedicated integrations and credentials; the UI does not pretend those external services exist when they are not connected.
